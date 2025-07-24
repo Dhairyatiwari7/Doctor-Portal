@@ -1,6 +1,6 @@
-import React, { useEffect, useContext, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { AppContext } from '../context/AppContext';
+import React, { useEffect, useContext, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { AppContext } from "../context/AppContext";
 
 const Doctors = () => {
   const { speciality } = useParams();
@@ -35,7 +35,7 @@ const Doctors = () => {
   // Toggle filter logic: if same speciality clicked again → show all doctors
   const handleSpecialityClick = (spec) => {
     if (spec.toLowerCase() === speciality?.toLowerCase()) {
-      navigate('/doctors');
+      navigate("/doctors");
     } else {
       navigate(`/doctors/${spec}`);
     }
@@ -43,22 +43,30 @@ const Doctors = () => {
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
-      <div className="grid grid-cols-1 md:grid-cols-[260px_1fr] gap-8">
-        {/* Left Sidebar */}
-        <aside className="bg-white shadow-md rounded-lg p-5 h-fit sticky top-20">
+      <div className="md:grid md:grid-cols-[260px_1fr] md:gap-8">
+        {/* Speciality filter sidebar / horizontal bar */}
+        <aside
+          className="
+            bg-white shadow-md rounded-lg p-4 mb-6
+            overflow-x-auto whitespace-nowrap
+            md:block md:w-auto md:sticky md:top-20 md:mb-0
+          "
+        >
           <h2 className="text-xl font-semibold text-gray-700 mb-4">
             Browse by Speciality
           </h2>
-          <ul className="flex flex-col gap-3">
+          <ul className="flex gap-3 md:flex-col md:gap-3">
             {allSpecialities.map((spec) => (
               <li
                 key={spec}
                 onClick={() => handleSpecialityClick(spec)}
-                className={`px-3 py-2 rounded-md cursor-pointer text-sm transition-all duration-300
-                  ${spec.toLowerCase() === speciality?.toLowerCase()
-                    ? "bg-blue-100 text-blue-700 font-semibold"
-                    : "text-gray-700 hover:bg-blue-50"
-                  }`}
+                className={`px-3 py-2 rounded-md cursor-pointer text-sm transition-all duration-300 inline-block
+                  ${
+                    spec.toLowerCase() === speciality?.toLowerCase()
+                      ? "bg-blue-100 text-blue-700 font-semibold"
+                      : "text-gray-700 hover:bg-blue-50"
+                  }
+                `}
               >
                 {spec}
               </li>
@@ -66,7 +74,7 @@ const Doctors = () => {
           </ul>
         </aside>
 
-        {/* Right: Doctor Cards */}
+        {/* Doctor cards */}
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filterDoc.length > 0 ? (
             filterDoc.map((item, idx) => (
