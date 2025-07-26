@@ -1,8 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
 import { toast } from 'react-toastify';
 import axios from 'axios';
-import { use } from "react";
-import { set } from "mongoose";
 
 export const DoctorContext = createContext();
 
