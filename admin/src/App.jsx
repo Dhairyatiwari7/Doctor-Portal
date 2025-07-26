@@ -14,7 +14,7 @@ import DoctorsList from './pages/Admin/DoctorsList';
 import { DoctorContext } from './context/DoctorContext';
 import DoctorDashboard from './pages/Doctor/DoctorDashboard';
 import DoctorAppointments from './pages/Doctor/DoctorAppointments';
-import DoctorProfile from './pages/Doctor/Doctorprofile';
+import DoctorProfile from './pages/Doctor/DoctorProfile';
 
 function App() {
   const { aToken } = useContext(AdminContext);
