@@ -30,6 +30,7 @@ import doc12 from './doc12.png'
 import doc13 from './doc13.png'
 import doc14 from './doc14.png'
 import doc15 from './doc15.png'
+import upload_area from './upload_area.png'
 import Dermatologist from './Dermatologist.svg'
 import Gastroenterologist from './Gastroenterologist.svg'
 import General_physician from './General_physician.svg'
@@ -54,6 +55,7 @@ export const assets = {
     cross_icon,
     dropdown_icon,
     upload_icon,
+    upload_area,
     stripe_logo,
     razorpay_logo
 }

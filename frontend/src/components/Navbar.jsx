@@ -19,6 +19,7 @@ const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const image=localStorage.getItem('userImage') || assets.upload_area;
 
   const handleLogout = () => {
     setToken(false);
@@ -68,7 +69,7 @@ const Navbar = () => {
             >
               <img
                 className="w-8 h-8 rounded-full"
-                src={assets.profile_pic}
+                src={image}
                 alt="Profile"
               />
               <img className="w-3" src={assets.dropdown_icon} alt="Dropdown" />
@@ -88,7 +89,7 @@ const Navbar = () => {
                 <p
                   className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                   onClick={() => {
-                    navigate("/my-appointmets");
+                    navigate("/my-appointments");
                     setDropdownOpen(false);
                   }}
                 >
@@ -152,7 +153,7 @@ const Navbar = () => {
       {token ? (
         <>
           <NavItem to="/my-profile" label="My Profile" onClick={() => setMenuOpen(false)} />
-          <NavItem to="/my-appointmets" label="My Appointments" onClick={() => setMenuOpen(false)} />
+          <NavItem to="/my-appointments" label="My Appointments" onClick={() => setMenuOpen(false)} />
           <button
             onClick={handleLogout}
             className="block w-full text-left px-4 py-2 text-red-600 hover:bg-red-50"

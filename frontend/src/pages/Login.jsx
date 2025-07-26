@@ -1,40 +1,58 @@
-import React ,{useContext}from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {AppContext} from '../context/AppContext';
+import { AppContext } from '../context/AppContext';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+
 const Login = () => {
   const [state, setState] = React.useState("SignUp");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [name, setName] = React.useState("");
-  const Navigate=useNavigate();
-  const{token,setToken,BACKEND_URL}=useContext(AppContext)
+  const { token, setToken, BACKEND_URL } = useContext(AppContext);
+  const navigate = useNavigate(); 
+
+  
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     try {
-      if(state === "SignUp") {
-        const response = await axios.post(`${BACKEND_URL}/api/user/register`, { name, email, password });
+      if (state === "SignUp") {
+        const response = await axios.post(`${BACKEND_URL}/api/user/register`, { 
+          name, 
+          email, 
+          password 
+        });
+        
         if (response.data.success) {
+          console.log(response.data);
           toast.success(response.data.message);
+          setToken(response.data.token);
+          localStorage.setItem('token', response.data.token);
+          console.log(localStorage.getItem('token'));
+          navigate('/'); 
         } else {
           toast.error(response.data.message);
         }
       } else if (state === "Login") {
-        const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/user/login`, { email, password });
+        const response = await axios.post(`${BACKEND_URL}/api/user/login`, { 
+          email, 
+          password 
+        });
+        
         if (response.data.success) {
           toast.success(response.data.message);
+          setToken(response.data.token);
+          localStorage.setItem('token', response.data.token);
+          navigate('/');
         } else {
           toast.error(response.data.message);
         }
       }
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Failed to login');
+      console.error('Login error:', error);
+      toast.error(error.response?.data?.message || 'An error occurred');
     }
-    setToken(true)
-    Navigate('/')
-    
   };
 
   return (
@@ -97,7 +115,7 @@ const Login = () => {
 
         <div className="text-center mt-4">
           <p className="text-sm">
-            {state === "SignUp" ? "Already have an account?" : "Don’t have an account?"}
+            {state === "SignUp" ? "Already have an account?" : "Don't have an account?"}
             <span
               onClick={() => setState(state === "SignUp" ? "Login" : "SignUp")}
               className="text-blue-600 ml-2 cursor-pointer font-semibold hover:underline"

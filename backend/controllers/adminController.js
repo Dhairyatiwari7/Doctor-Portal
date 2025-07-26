@@ -1,4 +1,6 @@
 import Doctor from "../models/doctorModel.js"
+import Appointment from "../models/AppointmentModel.js"
+import User from "../models/userModel.js"
 import bcrypt from "bcrypt"
 import uploadToCloudinary from "../config/uploadToCloudinary.js"
 import validator from "validator"
@@ -116,5 +118,63 @@ const getAllDoctors=async(req,res)=>{
         });
     }
 }
+const getAllAppointments=async(req,res)=>{
+    try {
+        const appointments=await Appointment.find()
+        res.status(200).json({ 
+            success: true,
+            message: "Appointments fetched successfully",
+            data: appointments
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ 
+            success: false,
+            message: "Internal server error. Please try again later." 
+        });
+    }
+}
 
-export {addDoctor,loginAdmin,getAllDoctors}
+const cancelAppointment=async(req,res)=>{
+    try {
+        const {appointmentId}=req.body
+        await Appointment.findByIdAndUpdate(appointmentId,{cancelled:true})
+        res.status(200).json({ 
+            success: true,
+            message: "Appointment cancelled successfully"
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ 
+            success: false,
+            message: "Internal server error. Please try again later." 
+        });
+    }
+}
+
+const adminDashboard=async(req,res)=>{
+    try {
+        const doctors=await Doctor.find({}).select("-password")
+        const users=await User.find({}).select("-password")
+        const appointments=await Appointment.find()
+        const dashData={
+            doctors:doctors.length,
+            users:users.length,
+            appointments:appointments.length,
+            latestAppointments:appointments.reverse().slice(0,5) 
+        }
+        return res.status(200).json({ 
+            success: true,
+            message: "Dashboard data fetched successfully",
+            data:dashData
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ 
+            success: false,
+            message: "Internal server error. Please try again later." 
+        });
+        
+    }
+}
+export {addDoctor,loginAdmin,getAllDoctors,getAllAppointments,cancelAppointment,adminDashboard}

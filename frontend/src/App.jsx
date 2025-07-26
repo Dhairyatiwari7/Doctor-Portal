@@ -11,7 +11,8 @@ import Appointment from './pages/Appointment';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import UserProvider from '../src/context/AppContext';
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const App = () => {
   const location = useLocation();
 
@@ -31,11 +32,23 @@ const App = () => {
           <Route path='/doctors/:speciality' element={<Doctors />} />
           <Route path='/login' element={<Login />} />
           <Route path='/contact' element={<Contact />} />
-          <Route path='/my-appointmets' element={<MyAppointments />} />
+          <Route path='/my-appointments' element={<MyAppointments />} />
           <Route path='/my-profile' element={<MyProfile />} />
           <Route path='/appointment/:docId' element={<Appointment />} />
         </Routes>
         {!shouldHideLayout && <Footer />}
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
       </div>
     </UserProvider>
   );

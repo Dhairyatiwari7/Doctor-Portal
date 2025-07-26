@@ -3,6 +3,8 @@ import { assets } from '../assets/assets';
 import { AdminContext } from '../context/AdminContext';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import { DoctorContext } from '../context/DoctorContext';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const [state, setState] = useState('Admin');
@@ -10,6 +12,8 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const { BACKEND_URL, aToken, setAToken } = useContext(AdminContext);
+    const {setDToken,dToken}=useContext(DoctorContext)
+    const Navigate=useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -18,29 +22,38 @@ const Login = () => {
             toast.error("Please fill in all fields");
             return;
         }
-
         setLoading(true);
-        
         try {
             if (state === "Admin") {
                 const response = await axios.post(`${BACKEND_URL}/api/admin/login`, { 
                     email, 
                     password 
                 });
-                
                 const { data } = response;
-                
                 if (data.success) {
                     console.log("Login successful, token:", data.token);
                     setAToken(data.token);
                     localStorage.setItem('aToken', data.token);
                     toast.success(data.message || "Login successful!");
+                    Navigate('/admin-dashboard');
                 } else {
                     toast.error(data.message || "Login failed");
                 }
             } else {
-                console.log('Doctor login not implemented yet');
-                toast.info("Doctor login not implemented yet");
+                const response = await axios.post(`${BACKEND_URL}/api/doctor/login`, { 
+                    email, 
+                    password 
+                });
+                const { data } = response;
+                if (data.success) {
+                    localStorage.setItem('Dtoken', data.token);
+                    setDToken(data.token);
+                    toast.success(data.message || "Login successful!");
+                    Navigate('/doctor-dashboard');
+                    
+                } else {
+                    toast.error(data.message || "Login failed");
+                }
             }
         } catch (error) {
             if (error.response) {
