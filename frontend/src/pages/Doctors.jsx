@@ -1,12 +1,29 @@
 import React, { useEffect, useContext, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
+import { toast } from 'react-toastify'
 
 const Doctors = () => {
   const { speciality } = useParams();
   const [filterDoc, setFilterDoc] = useState([]);
-  const { doctors } = useContext(AppContext);
+  const [doctors, setDoctors] = useState([]);
+  const { getAvailableDoctors } = useContext(AppContext);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchDoctors = async () => {
+      try {
+        const response=await getAvailableDoctors();
+        console.log(response);
+        setDoctors(response.data);
+      } catch (error) {
+        toast.error(error.response?.data?.message || 'Failed to fetch doctors');
+      }
+    };
+    fetchDoctors();
+  }, [getAvailableDoctors]);
+
+  
 
   const allSpecialities = [
     "General physician",

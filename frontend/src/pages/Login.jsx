@@ -1,19 +1,37 @@
 import React ,{useContext}from 'react';
 import { useNavigate } from 'react-router-dom';
 import {AppContext} from '../context/AppContext';
+import { toast } from 'react-toastify';
+import axios from 'axios';
 const Login = () => {
   const [state, setState] = React.useState("SignUp");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [name, setName] = React.useState("");
   const Navigate=useNavigate();
-  const{token,setToken}=useContext(AppContext)
+  const{token,setToken,BACKEND_URL}=useContext(AppContext)
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-
-
-
+    try {
+      if(state === "SignUp") {
+        const response = await axios.post(`${BACKEND_URL}/api/user/register`, { name, email, password });
+        if (response.data.success) {
+          toast.success(response.data.message);
+        } else {
+          toast.error(response.data.message);
+        }
+      } else if (state === "Login") {
+        const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/user/login`, { email, password });
+        if (response.data.success) {
+          toast.success(response.data.message);
+        } else {
+          toast.error(response.data.message);
+        }
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Failed to login');
+    }
     setToken(true)
     Navigate('/')
     
@@ -37,7 +55,7 @@ const Login = () => {
             <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
             <input
               type="text"
-              placeholder="John Doe"
+              placeholder="Enter your name"
               onChange={(e) => setName(e.target.value)}
               value={name}
               required

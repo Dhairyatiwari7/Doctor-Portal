@@ -8,6 +8,7 @@ export default defineConfig({
     tailwindcss(), 
     react()
   ],
+  server:{port:5174},
   theme:{
     extend: {
       colors:{
