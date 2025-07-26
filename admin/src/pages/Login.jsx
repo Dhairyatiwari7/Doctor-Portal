@@ -129,6 +129,8 @@ const Login = () => {
                         </span>
                     </p>
                 )}
+                <p className='text-sm text-gray-600 text-center mt-4'>test doctor : Richard@gmail.com / password: Richard@gmail.com</p>
+                <p className='text-sm text-gray-600 text-center mt-4'>test admin : dhairyatiwari186@gmail.com / password: dhairyatiwari186@gmail.com</p>
             </div>
         </form>
     );
