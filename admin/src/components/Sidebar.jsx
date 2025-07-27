@@ -7,7 +7,8 @@ import {
   FaTimes, 
   FaBars, 
   FaSignOutAlt, 
-  FaChevronLeft 
+  FaChevronLeft,
+  FaCommentDots // <-- 1. Icon for the new link is imported
 } from 'react-icons/fa'
 
 const Sidebar = ({ isOpen, setIsOpen }) => {
@@ -18,12 +19,10 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
   // Logout function
   const handleLogout = () => {
     if (aToken) {
-      // Admin logout
       setAToken('')
       localStorage.removeItem('aToken')
       navigate('/admin-login')
     } else if (dToken) {
-      // Doctor logout
       setDToken('')
       localStorage.removeItem('dToken')
       navigate('/doctor-login')
@@ -79,137 +78,32 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         <div className="flex-1 overflow-y-auto">
           {aToken && (
             <ul className="text-gray-600 mt-5 space-y-1">
-              <li>
-                <NavLink 
-                  to='/admin-dashboard' 
-                  onClick={handleLinkClick}
-                  className={({isActive}) => `
-                    flex items-center gap-3 py-3 px-4 md:px-6 
-                    cursor-pointer transition-all duration-200
-                    hover:bg-gray-50
-                    ${isActive 
-                      ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-600' 
-                      : 'text-gray-600 hover:text-gray-800'
-                    }
-                  `}
-                >
-                  <img src={assets.home_icon} alt="" className="w-5 h-5" />
-                  <p className="font-medium">Dashboard</p> 
-                </NavLink>
-              </li>
-              <li>
-                <NavLink 
-                  to='/all-appointments' 
-                  onClick={handleLinkClick}
-                  className={({isActive}) => `
-                    flex items-center gap-3 py-3 px-4 md:px-6 
-                    cursor-pointer transition-all duration-200
-                    hover:bg-gray-50
-                    ${isActive 
-                      ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-600' 
-                      : 'text-gray-600 hover:text-gray-800'
-                    }
-                  `}
-                >
-                  <img src={assets.appointment_icon} alt="" className="w-5 h-5" />
-                  <p className="font-medium">Appointments</p>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink 
-                  to='/add-doctor' 
-                  onClick={handleLinkClick}
-                  className={({isActive}) => `
-                    flex items-center gap-3 py-3 px-4 md:px-6 
-                    cursor-pointer transition-all duration-200
-                    hover:bg-gray-50
-                    ${isActive 
-                      ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-600' 
-                      : 'text-gray-600 hover:text-gray-800'
-                    }
-                  `}
-                >
-                  <img src={assets.add_icon} alt="" className="w-5 h-5" />
-                  <p className="font-medium">Add Doctor</p>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink 
-                  to='/doctor-list' 
-                  onClick={handleLinkClick}
-                  className={({isActive}) => `
-                    flex items-center gap-3 py-3 px-4 md:px-6 
-                    cursor-pointer transition-all duration-200
-                    hover:bg-gray-50
-                    ${isActive 
-                      ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-600' 
-                      : 'text-gray-600 hover:text-gray-800'
-                    }
-                  `}
-                >
-                  <img src={assets.people_icon} alt="" className="w-5 h-5" />
-                  <p className="font-medium">Doctors List</p>
-                </NavLink>
-              </li>
+              {/* Admin links remain unchanged */}
+              <li><NavLink to='/admin-dashboard' onClick={handleLinkClick} className={({isActive}) => `flex items-center gap-3 py-3 px-4 md:px-6 cursor-pointer transition-all duration-200 hover:bg-gray-50 ${isActive ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-600' : 'text-gray-600 hover:text-gray-800'}`}><img src={assets.home_icon} alt="" className="w-5 h-5" /><p className="font-medium">Dashboard</p></NavLink></li>
+              <li><NavLink to='/all-appointments' onClick={handleLinkClick} className={({isActive}) => `flex items-center gap-3 py-3 px-4 md:px-6 cursor-pointer transition-all duration-200 hover:bg-gray-50 ${isActive ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-600' : 'text-gray-600 hover:text-gray-800'}`}><img src={assets.appointment_icon} alt="" className="w-5 h-5" /><p className="font-medium">Appointments</p></NavLink></li>
+              <li><NavLink to='/add-doctor' onClick={handleLinkClick} className={({isActive}) => `flex items-center gap-3 py-3 px-4 md:px-6 cursor-pointer transition-all duration-200 hover:bg-gray-50 ${isActive ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-600' : 'text-gray-600 hover:text-gray-800'}`}><img src={assets.add_icon} alt="" className="w-5 h-5" /><p className="font-medium">Add Doctor</p></NavLink></li>
+              <li><NavLink to='/doctor-list' onClick={handleLinkClick} className={({isActive}) => `flex items-center gap-3 py-3 px-4 md:px-6 cursor-pointer transition-all duration-200 hover:bg-gray-50 ${isActive ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-600' : 'text-gray-600 hover:text-gray-800'}`}><img src={assets.people_icon} alt="" className="w-5 h-5" /><p className="font-medium">Doctors List</p></NavLink></li>
             </ul>
           )}
 
           {dToken && (
             <ul className="text-gray-600 mt-5 space-y-1">
+              <li><NavLink to='/doctor-dashboard' onClick={handleLinkClick} className={({isActive}) => `flex items-center gap-3 py-3 px-4 md:px-6 cursor-pointer transition-all duration-200 hover:bg-gray-50 ${isActive ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-600' : 'text-gray-600 hover:text-gray-800'}`}><img src={assets.home_icon} alt="" className="w-5 h-5" /><p className="font-medium">Dashboard</p></NavLink></li>
+              <li><NavLink to='/doctor-appointments' onClick={handleLinkClick} className={({isActive}) => `flex items-center gap-3 py-3 px-4 md:px-6 cursor-pointer transition-all duration-200 hover:bg-gray-50 ${isActive ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-600' : 'text-gray-600 hover:text-gray-800'}`}><img src={assets.appointment_icon} alt="" className="w-5 h-5" /><p className="font-medium">Appointments</p></NavLink></li>
+              
+              {/* --- 2. NEW MESSAGES LINK ADDED HERE --- */}
               <li>
                 <NavLink 
-                  to='/doctor-dashboard' 
+                  to='/doctor-chat' 
                   onClick={handleLinkClick}
-                  className={({isActive}) => `
-                    flex items-center gap-3 py-3 px-4 md:px-6 
-                    cursor-pointer transition-all duration-200
-                    hover:bg-gray-50
-                    ${isActive 
-                      ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-600' 
-                      : 'text-gray-600 hover:text-gray-800'
-                    }
-                  `}
+                  className={({isActive}) => `flex items-center gap-3 py-3 px-4 md:px-6 cursor-pointer transition-all duration-200 hover:bg-gray-50 ${isActive ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-600' : 'text-gray-600 hover:text-gray-800'}`}
                 >
-                  <img src={assets.home_icon} alt="" className="w-5 h-5" />
-                  <p className="font-medium">Dashboard</p> 
+                  <FaCommentDots className="w-5 h-5" />
+                  <p className="font-medium">Messages</p>
                 </NavLink>
               </li>
-              <li>
-                <NavLink 
-                  to='/doctor-appointments' 
-                  onClick={handleLinkClick}
-                  className={({isActive}) => `
-                    flex items-center gap-3 py-3 px-4 md:px-6 
-                    cursor-pointer transition-all duration-200
-                    hover:bg-gray-50
-                    ${isActive 
-                      ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-600' 
-                      : 'text-gray-600 hover:text-gray-800'
-                    }
-                  `}
-                >
-                  <img src={assets.appointment_icon} alt="" className="w-5 h-5" />
-                  <p className="font-medium">Appointments</p>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink 
-                  to='/doctor-profile' 
-                  onClick={handleLinkClick}
-                  className={({isActive}) => `
-                    flex items-center gap-3 py-3 px-4 md:px-6 
-                    cursor-pointer transition-all duration-200
-                    hover:bg-gray-50
-                    ${isActive 
-                      ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-600' 
-                      : 'text-gray-600 hover:text-gray-800'
-                    }
-                  `}
-                >
-                  <img src={assets.people_icon} alt="" className="w-5 h-5" />
-                  <p className="font-medium">Profile</p>
-                </NavLink>
-              </li>
+
+              <li><NavLink to='/doctor-profile' onClick={handleLinkClick} className={({isActive}) => `flex items-center gap-3 py-3 px-4 md:px-6 cursor-pointer transition-all duration-200 hover:bg-gray-50 ${isActive ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-600' : 'text-gray-600 hover:text-gray-800'}`}><img src={assets.people_icon} alt="" className="w-5 h-5" /><p className="font-medium">Profile</p></NavLink></li>
             </ul>
           )}
         </div>
@@ -229,4 +123,4 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
   )
 }
 
-export default Sidebar
+export default Sidebar;

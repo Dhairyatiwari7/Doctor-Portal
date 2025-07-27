@@ -13,6 +13,7 @@ import Footer from './components/Footer';
 import UserProvider from '../src/context/AppContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import UserChatPage from './pages/UserChatPage';
 const App = () => {
   const location = useLocation();
 
@@ -35,6 +36,7 @@ const App = () => {
           <Route path='/my-appointments' element={<MyAppointments />} />
           <Route path='/my-profile' element={<MyProfile />} />
           <Route path='/appointment/:docId' element={<Appointment />} />
+          <Route path='/chat' element={<UserChatPage />} />
         </Routes>
         {!shouldHideLayout && <Footer />}
         <ToastContainer
