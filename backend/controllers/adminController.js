@@ -74,7 +74,7 @@ const loginAdmin = async (req, res) => {
                 { 
                     email: email,
                     role: 'admin',
-                    adminId: process.env.ADMIN_EMAIL + process.env.ADMIN_PASSWORD // Add unique identifier
+                    adminId: process.env.ADMIN_EMAIL + process.env.ADMIN_PASSWORD 
                 }, 
                 process.env.JWT_SECRET,
                 { expiresIn: '24h' }

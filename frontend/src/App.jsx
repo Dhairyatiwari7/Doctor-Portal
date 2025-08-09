@@ -8,20 +8,21 @@ import Contact from './pages/Contact';
 import MyAppointments from './pages/MyAppointments';
 import MyProfile from './pages/MyProfile';
 import Appointment from './pages/Appointment';
+import MyOrders from './pages/MyOrders';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import UserProvider from '../src/context/AppContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import UserChatPage from './pages/UserChatPage';
+import Pharmacy from './pages/Pharmacy';
 const App = () => {
   const location = useLocation();
 
-  // List of paths where Navbar/Footer should be hidden
   const hideLayoutOnPaths = ['/login'];
 
   const shouldHideLayout = hideLayoutOnPaths.includes(location.pathname);
-
+  
   return (
     <UserProvider>
       <div className='mx-4 sm:mx-[10%]'>
@@ -37,6 +38,8 @@ const App = () => {
           <Route path='/my-profile' element={<MyProfile />} />
           <Route path='/appointment/:docId' element={<Appointment />} />
           <Route path='/chat' element={<UserChatPage />} />
+          <Route path='/pharmacy' element={<Pharmacy />} />
+          <Route path='/my-orders' element={<MyOrders />} />
         </Routes>
         {!shouldHideLayout && <Footer />}
         <ToastContainer

@@ -9,7 +9,7 @@ const Login = () => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [name, setName] = React.useState("");
-  const { token, setToken, BACKEND_URL } = useContext(AppContext);
+  const {  setToken, BACKEND_URL } = useContext(AppContext);
   const navigate = useNavigate(); 
 
   

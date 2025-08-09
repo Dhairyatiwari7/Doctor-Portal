@@ -13,8 +13,6 @@ const TopDoctors = () => {
       <p className="w-full sm:w-2/3 md:w-1/3 text-center text-sm text-gray-600">
         Simply browse through our extensive list of trusted doctors.
       </p>
-
-      {/* Scrollable doctor cards */}
       <div className="w-full pt-5">
         <div className="flex md:grid md:grid-cols-3 lg:grid-cols-5 gap-4 overflow-x-auto md:overflow-visible pb-4 scrollbar-hide">
           {doctors.slice(0, 10).map((item, idx) => (

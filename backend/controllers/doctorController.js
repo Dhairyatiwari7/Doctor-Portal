@@ -122,7 +122,6 @@ const changeAppointmentStatus = async (req, res) => {
     }
 };
 
-// Add cancel appointment function
 const cancelAppointmentDoctor = async (req, res) => {
     try {
         const docId = req.doctor.id;

@@ -14,7 +14,6 @@ export const ChatContextProvider = ({ children }) => {
     const [currentChat, setCurrentChat] = useState(null);
     const [loadingChat, setLoadingChat] = useState(false);
 
-    // Effect 1: Initialize and disconnect the socket connection based on token
     useEffect(() => {
         if (token) {
             const newSocket = io(BACKEND_URL, {
@@ -25,29 +24,22 @@ export const ChatContextProvider = ({ children }) => {
             return () => newSocket.disconnect();
         }
     }, [token, BACKEND_URL]);
-
-    // Effect 2: Handle incoming messages (This is the corrected part)
     useEffect(() => {
         if (!socket) return;
 
         const handleNewMessage = (newMessage) => {
-            // Check if the incoming message belongs to the currently open chat
             if (currentChat && currentChat.appointmentId === newMessage.appointmentId) {
-                // Add the new message to the state, triggering a UI update
                 setMessages(prevMessages => [...prevMessages, newMessage]);
             }
-            // Always refresh the chat list to show new message previews or unread counts
             fetchUserChats();
         };
 
         socket.on('newMessage', handleNewMessage);
 
-        // Cleanup: remove the listener when the component unmounts or dependencies change
         return () => {
             socket.off('newMessage', handleNewMessage);
         };
-        // THE FIX: This effect MUST re-run when the user selects a new chat.
-    }, [socket, currentChat]); // <-- By adding currentChat here, the listener always knows which chat is active.
+    }, [socket, currentChat]);
 
     const fetchUserChats = async () => {
         if (!token) return;
@@ -82,7 +74,7 @@ export const ChatContextProvider = ({ children }) => {
     const value = {
         socket,
         messages,
-        setMessages, // For optimistic updates
+        setMessages, 
         userChats,
         fetchUserChats,
         getChat,

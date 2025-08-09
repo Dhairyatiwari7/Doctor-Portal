@@ -1,22 +1,26 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { AdminContext } from '../context/AdminContext'
 import { NavLink, useNavigate } from 'react-router-dom'
-import { assets } from '../assets/assets'
 import { DoctorContext } from '../context/DoctorContext'
 import { 
-  FaTimes, 
-  FaBars, 
+  FaTimes,
   FaSignOutAlt, 
-  FaChevronLeft,
-  FaCommentDots // <-- 1. Icon for the new link is imported
+  FaCommentDots,
+  FaHome,
+  FaCalendarAlt,
+  FaUserPlus,
+  FaUserMd,
+  FaPills,
+  FaShoppingCart,
+  FaUser,
+  FaTachometerAlt
 } from 'react-icons/fa'
 
 const Sidebar = ({ isOpen, setIsOpen }) => {
   const { aToken, setAToken } = useContext(AdminContext)
   const { dToken, setDToken } = useContext(DoctorContext)
   const navigate = useNavigate()
-
-  // Logout function
+  
   const handleLogout = () => {
     if (aToken) {
       setAToken('')
@@ -29,7 +33,6 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
     }
   }
 
-  // Close sidebar on mobile when clicking a link
   const handleLinkClick = () => {
     if (window.innerWidth < 768) {
       setIsOpen(false)
@@ -38,15 +41,12 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
 
   return (
     <>
-      {/* Mobile Overlay */}
       {isOpen && (
         <div 
           className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
           onClick={() => setIsOpen(false)}
         />
       )}
-
-      {/* Sidebar */}
       <div className={`
         fixed md:relative
         top-0 left-0
@@ -60,8 +60,6 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         min-h-screen
         flex flex-col
       `}>
-        
-        {/* Mobile Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-200 md:hidden">
           <h2 className="text-lg font-semibold text-gray-800">
             {aToken ? 'Admin Panel' : 'Doctor Panel'}
@@ -78,20 +76,98 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         <div className="flex-1 overflow-y-auto">
           {aToken && (
             <ul className="text-gray-600 mt-5 space-y-1">
-              {/* Admin links remain unchanged */}
-              <li><NavLink to='/admin-dashboard' onClick={handleLinkClick} className={({isActive}) => `flex items-center gap-3 py-3 px-4 md:px-6 cursor-pointer transition-all duration-200 hover:bg-gray-50 ${isActive ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-600' : 'text-gray-600 hover:text-gray-800'}`}><img src={assets.home_icon} alt="" className="w-5 h-5" /><p className="font-medium">Dashboard</p></NavLink></li>
-              <li><NavLink to='/all-appointments' onClick={handleLinkClick} className={({isActive}) => `flex items-center gap-3 py-3 px-4 md:px-6 cursor-pointer transition-all duration-200 hover:bg-gray-50 ${isActive ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-600' : 'text-gray-600 hover:text-gray-800'}`}><img src={assets.appointment_icon} alt="" className="w-5 h-5" /><p className="font-medium">Appointments</p></NavLink></li>
-              <li><NavLink to='/add-doctor' onClick={handleLinkClick} className={({isActive}) => `flex items-center gap-3 py-3 px-4 md:px-6 cursor-pointer transition-all duration-200 hover:bg-gray-50 ${isActive ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-600' : 'text-gray-600 hover:text-gray-800'}`}><img src={assets.add_icon} alt="" className="w-5 h-5" /><p className="font-medium">Add Doctor</p></NavLink></li>
-              <li><NavLink to='/doctor-list' onClick={handleLinkClick} className={({isActive}) => `flex items-center gap-3 py-3 px-4 md:px-6 cursor-pointer transition-all duration-200 hover:bg-gray-50 ${isActive ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-600' : 'text-gray-600 hover:text-gray-800'}`}><img src={assets.people_icon} alt="" className="w-5 h-5" /><p className="font-medium">Doctors List</p></NavLink></li>
+              <li>
+                <NavLink 
+                  to='/admin-dashboard' 
+                  onClick={handleLinkClick} 
+                  className={({isActive}) => `flex items-center gap-3 py-3 px-4 md:px-6 cursor-pointer transition-all duration-200 hover:bg-gray-50 ${isActive ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-600' : 'text-gray-600 hover:text-gray-800'}`}
+                >
+                  <FaTachometerAlt className="w-5 h-5" />
+                  <p className="font-medium">Dashboard</p>
+                </NavLink>
+              </li>
+              
+              <li>
+                <NavLink 
+                  to='/all-appointments' 
+                  onClick={handleLinkClick} 
+                  className={({isActive}) => `flex items-center gap-3 py-3 px-4 md:px-6 cursor-pointer transition-all duration-200 hover:bg-gray-50 ${isActive ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-600' : 'text-gray-600 hover:text-gray-800'}`}
+                >
+                  <FaCalendarAlt className="w-5 h-5" />
+                  <p className="font-medium">Appointments</p>
+                </NavLink>
+              </li>
+              
+              <li>
+                <NavLink 
+                  to='/add-doctor' 
+                  onClick={handleLinkClick} 
+                  className={({isActive}) => `flex items-center gap-3 py-3 px-4 md:px-6 cursor-pointer transition-all duration-200 hover:bg-gray-50 ${isActive ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-600' : 'text-gray-600 hover:text-gray-800'}`}
+                >
+                  <FaUserPlus className="w-5 h-5" />
+                  <p className="font-medium">Add Doctor</p>
+                </NavLink>
+              </li>
+              
+              <li>
+                <NavLink 
+                  to='/doctor-list' 
+                  onClick={handleLinkClick} 
+                  className={({isActive}) => `flex items-center gap-3 py-3 px-4 md:px-6 cursor-pointer transition-all duration-200 hover:bg-gray-50 ${isActive ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-600' : 'text-gray-600 hover:text-gray-800'}`}
+                >
+                  <FaUserMd className="w-5 h-5" />
+                  <p className="font-medium">Doctors List</p>
+                </NavLink>
+              </li>
+              
+              <li>
+                <NavLink 
+                  to='/pharmacy' 
+                  onClick={handleLinkClick} 
+                  className={({isActive}) => `flex items-center gap-3 py-3 px-4 md:px-6 cursor-pointer transition-all duration-200 hover:bg-gray-50 ${isActive ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-600' : 'text-gray-600 hover:text-gray-800'}`}
+                >
+                  <FaPills className="w-5 h-5" />
+                  <p className="font-medium">Pharmacy</p>
+                </NavLink>
+              </li>
+              
+              <li>
+                <NavLink 
+                  to='/orders' 
+                  onClick={handleLinkClick} 
+                  className={({isActive}) => `flex items-center gap-3 py-3 px-4 md:px-6 cursor-pointer transition-all duration-200 hover:bg-gray-50 ${isActive ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-600' : 'text-gray-600 hover:text-gray-800'}`}
+                >
+                  <FaShoppingCart className="w-5 h-5" />
+                  <p className="font-medium">Orders</p>
+                </NavLink>
+              </li>
             </ul>
           )}
 
           {dToken && (
             <ul className="text-gray-600 mt-5 space-y-1">
-              <li><NavLink to='/doctor-dashboard' onClick={handleLinkClick} className={({isActive}) => `flex items-center gap-3 py-3 px-4 md:px-6 cursor-pointer transition-all duration-200 hover:bg-gray-50 ${isActive ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-600' : 'text-gray-600 hover:text-gray-800'}`}><img src={assets.home_icon} alt="" className="w-5 h-5" /><p className="font-medium">Dashboard</p></NavLink></li>
-              <li><NavLink to='/doctor-appointments' onClick={handleLinkClick} className={({isActive}) => `flex items-center gap-3 py-3 px-4 md:px-6 cursor-pointer transition-all duration-200 hover:bg-gray-50 ${isActive ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-600' : 'text-gray-600 hover:text-gray-800'}`}><img src={assets.appointment_icon} alt="" className="w-5 h-5" /><p className="font-medium">Appointments</p></NavLink></li>
+              <li>
+                <NavLink 
+                  to='/doctor-dashboard' 
+                  onClick={handleLinkClick} 
+                  className={({isActive}) => `flex items-center gap-3 py-3 px-4 md:px-6 cursor-pointer transition-all duration-200 hover:bg-gray-50 ${isActive ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-600' : 'text-gray-600 hover:text-gray-800'}`}
+                >
+                  <FaHome className="w-5 h-5" />
+                  <p className="font-medium">Dashboard</p>
+                </NavLink>
+              </li>
               
-              {/* --- 2. NEW MESSAGES LINK ADDED HERE --- */}
+              <li>
+                <NavLink 
+                  to='/doctor-appointments' 
+                  onClick={handleLinkClick} 
+                  className={({isActive}) => `flex items-center gap-3 py-3 px-4 md:px-6 cursor-pointer transition-all duration-200 hover:bg-gray-50 ${isActive ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-600' : 'text-gray-600 hover:text-gray-800'}`}
+                >
+                  <FaCalendarAlt className="w-5 h-5" />
+                  <p className="font-medium">Appointments</p>
+                </NavLink>
+              </li>
+              
               <li>
                 <NavLink 
                   to='/doctor-chat' 
@@ -103,12 +179,19 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
                 </NavLink>
               </li>
 
-              <li><NavLink to='/doctor-profile' onClick={handleLinkClick} className={({isActive}) => `flex items-center gap-3 py-3 px-4 md:px-6 cursor-pointer transition-all duration-200 hover:bg-gray-50 ${isActive ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-600' : 'text-gray-600 hover:text-gray-800'}`}><img src={assets.people_icon} alt="" className="w-5 h-5" /><p className="font-medium">Profile</p></NavLink></li>
+              <li>
+                <NavLink 
+                  to='/doctor-profile' 
+                  onClick={handleLinkClick} 
+                  className={({isActive}) => `flex items-center gap-3 py-3 px-4 md:px-6 cursor-pointer transition-all duration-200 hover:bg-gray-50 ${isActive ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-600' : 'text-gray-600 hover:text-gray-800'}`}
+                >
+                  <FaUser className="w-5 h-5" />
+                  <p className="font-medium">Profile</p>
+                </NavLink>
+              </li>
             </ul>
           )}
         </div>
-
-        {/* Logout Button */}
         <div className="border-t border-gray-200 p-4">
           <button
             onClick={handleLogout}

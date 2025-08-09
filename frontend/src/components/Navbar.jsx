@@ -43,7 +43,7 @@ const Navbar = () => {
 
   return (
     <div className="flex items-center justify-between px-4 text-sm py-4 mb-5 border-b border-b-gray-300 bg-white">
-      {/* Logo */}
+    
       <img
         className="w-40 cursor-pointer"
         src={assets.logo}
@@ -51,15 +51,14 @@ const Navbar = () => {
         onClick={() => navigate("/")}
       />
 
-      {/* Desktop Menu */}
       <ul className="hidden md:flex items-center gap-6 font-medium">
         <NavItem to="/" label="HOME" />
         <NavItem to="/doctors" label="ALL DOCTORS" />
         <NavItem to="/about" label="ABOUT" />
         <NavItem to="/contact" label="CONTACT" />
+        <NavItem to="/pharmacy" label="PHARMACY" />
       </ul>
 
-      {/* Desktop Button or Profile */}
       <div className="hidden md:flex items-center gap-4">
         {token ? (
           <div className="relative" ref={dropdownRef}>
@@ -97,6 +96,15 @@ const Navbar = () => {
                 </p>
                 <p
                   className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                  onClick={() => {
+                    navigate("/my-orders");
+                    setDropdownOpen(false);
+                  }}
+                >
+                  My Orders
+                </p>
+                <p
+                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                   onClick={handleLogout}
                 >
                   Logout
@@ -114,15 +122,12 @@ const Navbar = () => {
         )}
       </div>
 
-      {/* Mobile Menu Button */}
-      {/* Mobile Menu Button */}
 <div className="md:hidden">
   <button
     onClick={() => setMenuOpen(!menuOpen)}
     className="p-2 rounded-md text-blue-600 hover:bg-blue-100 focus:outline-none"
     aria-label="Toggle Menu"
   >
-    {/* Hamburger Icon (SVG) */}
     <svg
       className="h-6 w-6"
       fill="none"
@@ -139,7 +144,6 @@ const Navbar = () => {
     </svg>
   </button>
 
-  {/* Mobile Dropdown Menu */}
   {menuOpen && (
     <div
       ref={dropdownRef}
@@ -154,6 +158,7 @@ const Navbar = () => {
         <>
           <NavItem to="/my-profile" label="My Profile" onClick={() => setMenuOpen(false)} />
           <NavItem to="/my-appointments" label="My Appointments" onClick={() => setMenuOpen(false)} />
+          <NavItem to="/my-orders" label="My Orders" onClick={() => setMenuOpen(false)} />
           <button
             onClick={handleLogout}
             className="block w-full text-left px-4 py-2 text-red-600 hover:bg-red-50"

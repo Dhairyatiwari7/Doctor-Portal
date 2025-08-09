@@ -13,7 +13,6 @@ userRouter.post('/book-appointment', authUser, bookAppointment);
 userRouter.get('/my-appointments', authUser, userAppointments);
 userRouter.post('/cancel-appointment', authUser, cancelAppointment);
 userRouter.post('/payment-razorpay', authUser, paymentRazorPay);
-userRouter.post('/payment-razorpay', authUser, paymentRazorPay);
 userRouter.post('/verify-payment', authUser, verifyPayment);
 
 export default userRouter;

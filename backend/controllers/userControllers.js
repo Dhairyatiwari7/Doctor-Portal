@@ -367,7 +367,6 @@ const verifyPayment = async (req, res) => {
             razorpay_signature
         });
 
-        // Validate required fields
         if (!appointmentId || !razorpay_payment_id || !razorpay_order_id || !razorpay_signature) {
             return res.status(400).json({
                 success: false,
@@ -375,7 +374,6 @@ const verifyPayment = async (req, res) => {
             });
         }
 
-        // Check if appointment exists
         const appointment = await Appointment.findById(appointmentId);
         if (!appointment) {
             return res.status(404).json({
@@ -384,7 +382,6 @@ const verifyPayment = async (req, res) => {
             });
         }
 
-        // Check if appointment belongs to the current user
         if (appointment.userId !== req.user.id) {
             return res.status(403).json({
                 success: false,
@@ -392,7 +389,6 @@ const verifyPayment = async (req, res) => {
             });
         }
 
-        // Verify Razorpay signature
         const body = razorpay_order_id + "|" + razorpay_payment_id;
         const expectedSignature = crypto
             .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
@@ -406,7 +402,6 @@ const verifyPayment = async (req, res) => {
         });
 
         if (expectedSignature === razorpay_signature) {
-            // Payment verified, update appointment
             const updatedAppointment = await Appointment.findByIdAndUpdate(
                 appointmentId,
                 { 
@@ -440,4 +435,14 @@ const verifyPayment = async (req, res) => {
 };
 
 
-export { registerUser,paymentRazorPay, loginUser, verifyPayment,getuserProfile, editUserProfile ,bookAppointment,userAppointments,cancelAppointment}
+export { 
+    registerUser,
+    paymentRazorPay,
+    loginUser,
+    verifyPayment,
+    getuserProfile,
+    editUserProfile,
+    bookAppointment,
+    userAppointments,
+    cancelAppointment
+}

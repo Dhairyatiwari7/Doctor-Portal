@@ -3,7 +3,6 @@ import { ChatContext } from '../context/ChatContext';
 import { FaPaperPlane, FaArrowLeft, FaSpinner } from 'react-icons/fa';
 
 const ChatWindow = ({ onBack }) => {
-    // Get the setMessages function and loggedInUser from the context
     const { messages, setMessages, currentChat, socket, loadingChat, loggedInUser } = useContext(ChatContext);
     
     const [newMessage, setNewMessage] = useState('');
@@ -18,29 +17,20 @@ const ChatWindow = ({ onBack }) => {
     }, [messages]);
 
     const handleSendMessage = (e) => {
-        e.preventDefault(); // This is crucial to prevent page reload/shift
+        e.preventDefault(); 
         if (!newMessage.trim() || !socket || !currentChat) return;
-
-        // --- FIX: OPTIMISTIC UI UPDATE ---
-        // Create a temporary message object that looks like a real one
         const tempMessage = {
-            _id: Date.now().toString(), // Temporary unique ID
+            _id: Date.now().toString(),
             message: newMessage.trim(),
-            senderModel: 'User', // We know the sender is the current user
+            senderModel: 'User',
             sender: {
-                _id: loggedInUser._id, // Use the logged-in user's data
+                _id: loggedInUser._id,
                 name: loggedInUser.name,
                 image: loggedInUser.image,
             },
             timestamp: new Date().toISOString(),
         };
-
-        // Instantly add the message to the UI
         setMessages(prevMessages => [...prevMessages, tempMessage]);
-        
-        // --- END OF FIX ---
-
-        // Now, send the real message to the server in the background
         socket.emit('sendMessage', {
             appointmentId: currentChat.appointmentId,
             message: newMessage.trim(),
@@ -62,10 +52,7 @@ const ChatWindow = ({ onBack }) => {
     }
 
     return (
-        // FIX: The component structure is designed to prevent page shifts.
-        // The header and form are fixed, and only the middle div scrolls.
         <div className="bg-white rounded-lg shadow-md border h-full flex flex-col">
-            {/* Header */}
             <div className="p-4 border-b flex items-center gap-4 flex-shrink-0">
                 <button onClick={onBack} className="lg:hidden p-2 rounded-full hover:bg-gray-100">
                     <FaArrowLeft />
@@ -76,11 +63,8 @@ const ChatWindow = ({ onBack }) => {
                     <p className="text-sm text-gray-500">{currentChat.doctorId.speciality}</p>
                 </div>
             </div>
-
-            {/* Scrollable Message Area */}
             <div className="flex-1 p-4 overflow-y-auto bg-gray-50">
                 {messages.map((msg) => {
-                    // Check if the sender is the currently logged-in user
                     const isMyMessage = msg.senderModel === 'User'; 
                     return (
                         <div key={msg._id} className={`flex my-2 ${isMyMessage ? 'justify-end' : 'justify-start'}`}>
@@ -96,7 +80,6 @@ const ChatWindow = ({ onBack }) => {
                 <div ref={messagesEndRef} />
             </div>
 
-            {/* Message Input Form */}
             <form onSubmit={handleSendMessage} className="p-4 border-t bg-white flex-shrink-0">
                 <div className="flex items-center gap-2">
                     <input

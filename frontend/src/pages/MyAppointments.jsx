@@ -7,14 +7,13 @@ import axios from 'axios';
 import { 
   FaCalendarAlt, 
   FaClock, 
-  FaUser, 
   FaMapMarkerAlt, 
   FaStethoscope,
   FaRupeeSign,
   FaTimes,
   FaCheckCircle,
   FaTimesCircle,
-  FaCommentDots // 1. IMPORT THE CHAT ICON
+  FaCommentDots 
 } from 'react-icons/fa';
 
 
@@ -27,7 +26,6 @@ const MyAppointments = () => {
 
 
     const handlePayment = async (appointmentId) => {
-        // ... (Your existing handlePayment function - no changes needed)
         try {
             const response = await axios.post(
                 `${BACKEND_URL}/api/user/payment-razorpay`,
@@ -123,7 +121,6 @@ const MyAppointments = () => {
     };
 
     const cancelAppointment = async (appointmentId) => {
-        // ... (Your existing cancelAppointment function - no changes needed)
         if (!window.confirm('Are you sure you want to cancel this appointment?')) {
             return;
         }
@@ -158,7 +155,6 @@ const MyAppointments = () => {
     };
 
     const isUpcoming = (dateString) => {
-        // ... (Your existing isUpcoming function - no changes needed)
         const [day, month, year] = dateString.split('-');
         const appointmentDate = new Date(year, month - 1, day);
         const today = new Date();
@@ -170,7 +166,6 @@ const MyAppointments = () => {
         getUserAppointments();
     }, [token]);
 
-    // ... (Your existing loading state JSX is fine)
     if (loading) {
         return (
             <div className="flex justify-center items-center min-h-screen">
@@ -181,7 +176,6 @@ const MyAppointments = () => {
 
     return (
         <div className="max-w-6xl mx-auto px-4 py-8">
-            {/* Header and Error display (Your original code) */}
             <div className="mb-8">
                 <h1 className="text-3xl font-bold text-gray-800 mb-2">My Appointments</h1>
                 <p className="text-gray-600">Manage your upcoming and past appointments</p>
@@ -192,7 +186,6 @@ const MyAppointments = () => {
                 </div>
             )}
 
-            {/* Empty state (Your original code) */}
             {!loading && appointments.length === 0 && (
                 <div className="text-center py-16">
                     <FaCalendarAlt className="mx-auto text-6xl text-gray-300 mb-4" />
@@ -202,7 +195,6 @@ const MyAppointments = () => {
                 </div>
             )}
 
-            {/* Appointments list (Your original code with one addition) */}
             {appointments.length > 0 && (
                 <div className="space-y-6">
                     {appointments.map((appointment) => (
@@ -218,7 +210,6 @@ const MyAppointments = () => {
                                             <p className="text-gray-600 text-sm">{appointment.docData.degree} • {appointment.docData.experience}</p>
                                         </div>
                                     </div>
-                                    {/* Appointment Details (Your original code) */}
                                     <div className="lg:flex-1 space-y-3">
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                             <div className="flex items-center text-gray-700"><FaCalendarAlt className="text-blue-500 mr-2" /><div><p className="font-medium">{formatDate(appointment.slotDate)}</p><p className="text-sm text-gray-500">{appointment.slotDate}</p></div></div>
@@ -227,23 +218,17 @@ const MyAppointments = () => {
                                             <div className="flex items-center text-gray-700"><FaMapMarkerAlt className="text-red-500 mr-2" /><div><p className="font-medium text-sm">{appointment.docData.address.line1}</p><p className="text-sm text-gray-500">{appointment.docData.address.line2}</p></div></div>
                                         </div>
                                     </div>
-                                    {/* Status and Actions (Your original code with one addition) */}
                                     <div className="lg:w-48 flex flex-col justify-between">
                                         <div className="mb-4">
-                                            {/* (Your original status badge logic) */}
                                             {appointment.cancelled ? <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800"><FaTimesCircle className="mr-1" />Cancelled</span> : appointment.isCompleted ? <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800"><FaCheckCircle className="mr-1" />Completed</span> : appointment.payment ? <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800"><FaCheckCircle className="mr-1" />Paid</span> : isUpcoming(appointment.slotDate) ? <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800"><FaClock className="mr-1" />Upcoming</span> : <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800"><FaTimesCircle className="mr-1" />Expired</span>}
                                         </div>
-                                        {/* Action Buttons */}
                                         <div className="space-y-2">
-                                            {/* 2. CHAT BUTTON ADDED HERE */}
                                             {!appointment.cancelled && !appointment.isCompleted && (
                                                 <button onClick={() => navigate(`/chat?appointmentId=${appointment._id}`)} className="w-full bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium py-2 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors duration-200">
                                                     <FaCommentDots />
                                                     Chat
                                                 </button>
                                             )}
-
-                                            {/* Your original payment and cancel buttons */}
                                             {!appointment.cancelled && !appointment.isCompleted && isUpcoming(appointment.slotDate) && (
                                                 <>
                                                     {!appointment.payment && (
@@ -263,7 +248,6 @@ const MyAppointments = () => {
                     ))}
                 </div>
             )}
-            {/* ... Your "Book Another Appointment" button ... */}
             <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light" />
         </div>
     );
